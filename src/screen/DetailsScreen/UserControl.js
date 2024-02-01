@@ -2,15 +2,10 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 
 const UserControl = props => {
-  //first use case of useffect, it always has empty dependency array
   useEffect(() => {
-    //any logic u put here will only run once i.e at load time (after render)
-    //u can call apis here,
-
     console.log('useeffect with first case');
   }, []);
 
-  //second use case of useeffect
   useEffect(() => {
     console.log('HEY! first name just got changed');
   }, [props.firstName]);
@@ -19,7 +14,6 @@ const UserControl = props => {
     console.log('HEY! last name just got changed');
   }, [props.lastName]);
 
-  //fourth usecase of useeffect
   useEffect(() => {
     console.log('fourth one got run');
   });
@@ -29,7 +23,7 @@ const UserControl = props => {
   const {firstName, lastName, changePropPassing} = props;
 
   return (
-    <View style={{backgroundColor: 'red'}}>
+    <View style={{backgroundColor: 'pink'}}>
       <Text>{firstName}</Text>
       <Text>{lastName}</Text>
 

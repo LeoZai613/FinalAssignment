@@ -7,9 +7,9 @@ const myButtons = ['Home', 'About', 'Blogs', 'Careers', 'Contact Us'];
 const dataList = [
   {
     image:
-      'https://upload.wikimedia.org/wikipedia/commons/1/1e/F-22_Raptor_edit1_%28cropped%29.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwcAR_PUrrsp3GYmPyMD4DuqabPiyjT1UhL74cTHVL_dPRINVVEsIiYGJKRSJwpQ_O0J0&usqp=CAU',
     textDescription:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      "Pokémon was one of the first games I ever played as a child, and it instilled in me a deep passion for gaming that would eventually become a profound love for programming. Due to that, I decided I'd dedicate this first assignment to an app that would let me document them ^__^",
     buttonText: 'Go Somewhere',
   },
   {
@@ -34,11 +34,11 @@ const TestLayout = () => {
       <View
         style={{
           height: 70,
-          backgroundColor: 'orange',
+          backgroundColor: 'purple',
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text>Power Grid: Store or Homepage</Text>
+        <Text>My Favorite Pokemon</Text>
       </View>
       <View
         style={{

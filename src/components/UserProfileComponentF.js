@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,14 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
 import styles from './styles';
 
 const UserProfileComponentF = props => {
-  // console.log('user profile component f got rerendered');
-
-  // console.log(props);
-
   console.log('USER PROFILE FUNCTIONAL COMPONENT GOT RERENDERED');
 
   let {firstName, lastName, cell, email, city, country} = props;
@@ -32,7 +28,7 @@ const UserProfileComponentF = props => {
           onChangeText={changedText => {
             setUserFirstName(changedText);
           }}
-          placeholder="First Name"
+          placeholder="Favorite Pokemon" // Updated placeholder text
           style={styles.textinput}
         />
         <TextInput
@@ -40,7 +36,7 @@ const UserProfileComponentF = props => {
           onChangeText={ct => {
             setUserLastName(ct);
           }}
-          placeholder="Last Name"
+          placeholder="Pokemon Info" // Updated placeholder text
           style={styles.textinput}
         />
       </>
