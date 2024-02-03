@@ -1,7 +1,7 @@
-import {useEffect} from 'react';
+// HomePageScreen.js
+import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import TestLayout from '../../components/TestLayout';
-
 import styles from './styles';
 
 const HomePageScreen = props => {
@@ -43,13 +43,22 @@ const HomePageScreen = props => {
         <Text>LifecyclePrac</Text>
       </TouchableOpacity>
 
-      {/* Added button to navigate to SignUp screen */}
+      {/* Added button to navigate to Signup screen */}
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('Signup');
         }}
         style={styles.button1}>
-        <Text>Go to SignUp Screen</Text>
+        <Text>Go to Signup Screen</Text>
+      </TouchableOpacity>
+
+      {/* Added button to navigate to Login screen */}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Login');
+        }}
+        style={styles.button1}>
+        <Text>Login</Text>
       </TouchableOpacity>
     </View>
   );

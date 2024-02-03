@@ -1,12 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {
   HomeScreen,
   DetailsScreen,
-  SignupScreen,
   LoginScreen,
+  SignupScreen,
   UserProfileScreen,
   LifecyclePracScreen,
 } from '../screen';
@@ -21,7 +21,6 @@ const Navigation = () => {
       <Stack.Group>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-        {/* Removed extra space here */}
         <Stack.Screen name="LifecyclePrac" component={LifecyclePracScreen} />
         <Stack.Screen
           name="Details"
@@ -31,13 +30,7 @@ const Navigation = () => {
             BatchNumber: 0,
           }}
         />
-      </Stack.Group>
-    );
-  };
-
-  const renderAuthStack = () => {
-    return (
-      <Stack.Group>
+        {/* Include Login and Signup screens here */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Group>
@@ -45,9 +38,7 @@ const Navigation = () => {
   };
 
   return (
-    <Stack.Navigator>
-      {isLoggedIn ? renderMainStack() : renderAuthStack()}
-    </Stack.Navigator>
+    <Stack.Navigator>{isLoggedIn ? renderMainStack() : null}</Stack.Navigator>
   );
 };
 

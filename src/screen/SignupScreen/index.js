@@ -12,12 +12,12 @@ const SignupScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
-    // Perform signup logic here
+    // Perform Signup logic here
     console.log('Signup pressed');
     console.log('Email:', email);
     console.log('Password:', password);
 
-    // You may want to navigate to another screen upon successful signup
+    // You may want to navigate to another screen upon successful Signup
     // For example, navigating to the login screen
     navigation.navigate('Login');
   };
@@ -39,7 +39,7 @@ const SignupScreen = ({navigation}) => {
         secureTextEntry
       />
 
-      {/* TouchableOpacity for signup button */}
+      {/* TouchableOpacity for Signup button */}
       <TouchableOpacity onPress={handleSignup}>
         <Text>Signup</Text>
       </TouchableOpacity>
