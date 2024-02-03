@@ -30,7 +30,6 @@ const Navigation = () => {
             BatchNumber: 0,
           }}
         />
-        {/* Include Login and Signup screens here */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Group>

@@ -13,20 +13,15 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Validate credentials (hardcoded for simplicity)
-    const hardcodedEmail = 'test@example.com';
-    const hardcodedPassword = 'password123';
-
-    // Check if entered credentials match
-    if (email === hardcodedEmail && password === hardcodedPassword) {
-      // Navigate to the UserProfileScreen on successful login
-      navigation.navigate('UserProfileScreen', {
+    // For simplicity, let's assume any non-empty email and password is valid
+    if (email && password) {
+      // Navigate to the DashboardScreen on successful login
+      navigation.navigate('DashboardScreen', {
         email: email,
-        password: password,
+        // Other user-related data can be passed here
       });
     } else {
       // Handle login failure
-      // You can display an error message or any other action
       alert('Invalid credentials. Please try again.');
     }
   };
