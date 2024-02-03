@@ -10,7 +10,7 @@ const dataList = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwcAR_PUrrsp3GYmPyMD4DuqabPiyjT1UhL74cTHVL_dPRINVVEsIiYGJKRSJwpQ_O0J0&usqp=CAU',
     textDescription:
       "Pokémon was one of the first games I ever played as a child, and it instilled in me a deep passion for gaming that would eventually become a profound love for programming. Due to that, I decided I'd dedicate this first assignment to an app that would let me document them ^__^",
-    buttonText: 'Go Somewhere',
+    // buttonText: 'Go Somewhere',
   },
   {
     image:

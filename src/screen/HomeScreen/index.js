@@ -26,6 +26,7 @@ const HomePageScreen = props => {
         style={styles.button1}>
         <Text>Navigate Details Screen</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.push('Details');
