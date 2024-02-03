@@ -19,8 +19,11 @@ const LoginScreen = ({navigation}) => {
 
     // Check if entered credentials match
     if (email === hardcodedEmail && password === hardcodedPassword) {
-      // Navigate to the dashboard on successful login
-      navigation.navigate('Dashboard');
+      // Navigate to the UserProfileScreen on successful login
+      navigation.navigate('UserProfileScreen', {
+        email: email,
+        password: password,
+      });
     } else {
       // Handle login failure
       // You can display an error message or any other action

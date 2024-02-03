@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,19 +6,41 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
 
-const SignupScreen = () => {
+const SignupScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignup = () => {
+    // Perform signup logic here
+    console.log('Signup pressed');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    // You may want to navigate to another screen upon successful signup
+    // For example, navigating to the login screen
+    navigation.navigate('Login');
+  };
+
   return (
     <View>
-      <TextInput value={''} onChangeText={ct => {}} placeholder="Enter Email" />
+      {/* TextInput for email */}
       <TextInput
-        value={''}
-        onChangeText={ct => {}}
-        placeholder="Enter Password"
+        value={email}
+        onChangeText={text => setEmail(text)}
+        placeholder="Enter Email"
       />
 
-      <TouchableOpacity>
+      {/* TextInput for password */}
+      <TextInput
+        value={password}
+        onChangeText={text => setPassword(text)}
+        placeholder="Enter Password"
+        secureTextEntry
+      />
+
+      {/* TouchableOpacity for signup button */}
+      <TouchableOpacity onPress={handleSignup}>
         <Text>Signup</Text>
       </TouchableOpacity>
     </View>

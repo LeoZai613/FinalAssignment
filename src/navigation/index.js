@@ -7,6 +7,7 @@ import {
   DetailsScreen,
   SignupScreen,
   LoginScreen,
+  UserProfileScreen,
   LifecyclePracScreen,
 } from '../screen';
 
@@ -19,6 +20,8 @@ const Navigation = () => {
     return (
       <Stack.Group>
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        {/* Removed extra space here */}
         <Stack.Screen name="LifecyclePrac" component={LifecyclePracScreen} />
         <Stack.Screen
           name="Details"

@@ -34,11 +34,22 @@ const HomePageScreen = props => {
         style={styles.button1}>
         <Text>Push Details Screen</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('LifecyclePrac');
-        }}>
+        }}
+        style={styles.button1}>
         <Text>LifecyclePrac</Text>
+      </TouchableOpacity>
+
+      {/* Added button to navigate to SignUp screen */}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Signup');
+        }}
+        style={styles.button1}>
+        <Text>Go to SignUp Screen</Text>
       </TouchableOpacity>
     </View>
   );
