@@ -12,7 +12,7 @@ const DashboardScreen = ({navigation}) => {
   const fetchPokemons = async () => {
     try {
       const response = await ApiHelper.get(
-        'https://pokeapi.co/api/v2/pokemon?limit=50',
+        'https://pokeapi.co/api/v2/pokemon?limit=151',
       );
       setPokemons(response.data.results);
     } catch (error) {

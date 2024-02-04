@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Navigation from './navigation';
-import {AppContextProvider} from './contexts/AppContext'; // Import the AppContextProvider
+import {AppContextProvider} from './contexts/AppContext';
 
 const App = () => {
   return (
