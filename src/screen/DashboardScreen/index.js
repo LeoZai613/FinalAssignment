@@ -38,7 +38,7 @@ const Dashboard = ({navigation}) => {
       source={{
         uri: 'https://w0.peakpx.com/wallpaper/204/837/HD-wallpaper-gengar-ghost-pokemon.jpg',
       }}
-      style={{flex: 1}}>
+      style={{flex: 1, padding: 20}}>
       <View>
         <Button title="Logout" onPress={handleLogout} />
         <FlatList
@@ -49,27 +49,35 @@ const Dashboard = ({navigation}) => {
               style={{
                 borderBottomWidth: 1,
                 borderBottomColor: 'grey',
-                padding: 10,
+                padding: 20,
+                marginBottom: 10,
                 // backgroundColor: 'rgba(255, 255, 255, 0.5)', // Adjust alpha value for transparency
+                borderRadius: 10,
               }}>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  color: 'white',
+                  marginBottom: 5,
+                }}>
                 {item.name}
               </Text>
               <Image
                 source={{uri: item.sprites.front_default}}
-                style={{width: 100, height: 100}}
+                style={{width: 120, height: 120, marginBottom: 10}}
               />
-              <Text>
+              <Text style={{color: 'white', fontSize: 16}}>
                 Type:{' '}
                 {item.types.map(typeInfo => typeInfo.type.name).join(', ')}
               </Text>
-              <Text>
+              <Text style={{color: 'white', fontSize: 16}}>
                 Abilities:{' '}
                 {item.abilities
                   .map(abilityInfo => abilityInfo.ability.name)
                   .join(', ')}
               </Text>
-              <Text>
+              <Text style={{color: 'white', fontSize: 16}}>
                 Moves:{' '}
                 {item.moves
                   .slice(0, 4)
