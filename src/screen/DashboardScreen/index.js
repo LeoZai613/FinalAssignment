@@ -1,46 +1,60 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, StyleSheet, FlatList} from 'react-native';
+import {View, Text, FlatList, Image, StyleSheet, Button} from 'react-native';
 import ApiHelper from '../../helpers/ApiHelper';
 
 const DashboardScreen = ({navigation}) => {
-  const [data, setData] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchPokemons();
   }, []);
 
-  const fetchData = async () => {
+  const fetchPokemons = async () => {
     try {
-      const response = await ApiHelper.get('/your-api-endpoint');
-      // Assuming the response contains an array of items
-      setData(response.data);
+      const response = await ApiHelper.get(
+        'https://pokeapi.co/api/v2/pokemon?limit=50',
+      );
+      setPokemons(response.data.results);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching Pokémon data:', error);
     }
   };
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    // For example, remove the login state from AsyncStorage and navigate to the LoginScreen
-    // You can use AsyncStorage or any other state management solution you prefer
-    navigation.navigate('Login');
-  };
+  const renderPokemon = ({item}) => {
+    const idPokemon = item.url
+      .split('https://pokeapi.co/api/v2/pokemon/')[1]
+      .split('/')[0];
+    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${idPokemon}.png`;
 
-  const renderItem = ({item}) => (
-    <View style={styles.item}>
-      <Text>{item.carName}</Text>
-    </View>
-  );
+    return (
+      <View style={styles.pokemonContainer}>
+        <Image source={{uri: imageUrl}} style={styles.image} />
+        <Text style={styles.text}>{item.name}</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <Text>Welcome to the Dashboard!</Text>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()} // Assuming 'id' is a number
+      {pokemons && pokemons.length > 0 ? (
+        <FlatList
+          data={pokemons}
+          renderItem={renderPokemon}
+          keyExtractor={item => item.name}
+        />
+      ) : (
+        <Text>Loading Pokémon...</Text>
+      )}
+      <Button
+        title="Logout"
+        onPress={() => {
+          // Implement logout logic here
+          // For example, remove the login state from AsyncStorage and navigate to the LoginScreen
+          // You can use AsyncStorage or any other state management solution you prefer
+          navigation.navigate('Login');
+        }}
       />
-      <Button title="Logout" onPress={handleLogout} />
       <Button
         title="Home"
         onPress={() => {
@@ -58,13 +72,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  item: {
-    backgroundColor: 'pink',
-    margin: 5,
-    height: 70,
-    borderRadius: 8,
-    justifyContent: 'center',
+  pokemonContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+  },
+  text: {
+    fontSize: 16,
   },
 });
 
