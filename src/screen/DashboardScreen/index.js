@@ -1,9 +1,8 @@
-// Dashboard.js
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, Text, View} from 'react-native';
+import {FlatList, Image, Text, View, Button} from 'react-native';
 import axios from 'axios';
 
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   const [pokemonData, setPokemonData] = useState([]);
 
   useEffect(() => {
@@ -22,35 +21,43 @@ const Dashboard = () => {
     fetchPokemonData();
   }, []);
 
+  const handleLogout = () => {
+    // Assuming you have a navigation system in place and 'Home' is the route name for your home screen
+    navigation.navigate('Home');
+  };
+
   return (
-    <FlatList
-      data={pokemonData}
-      keyExtractor={item => item.name}
-      renderItem={({item}) => (
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomColor: 'grey',
-            padding: 10,
-          }}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
-          <Image
-            source={{uri: item.sprites.front_default}}
-            style={{width: 100, height: 100}}
-          />
-          <Text>
-            Type: {item.types.map(typeInfo => typeInfo.type.name).join(', ')}
-          </Text>
-          <Text>
-            Attacks:{' '}
-            {item.moves
-              .slice(0, 4)
-              .map(moveInfo => moveInfo.move.name)
-              .join(', ')}
-          </Text>
-        </View>
-      )}
-    />
+    <View>
+      <Button title="Logout" onPress={handleLogout} />
+      <FlatList
+        data={pokemonData}
+        keyExtractor={item => item.name}
+        renderItem={({item}) => (
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: 'grey',
+              padding: 10,
+            }}>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
+            <Image
+              source={{uri: item.sprites.front_default}}
+              style={{width: 100, height: 100}}
+            />
+            <Text>
+              Type: {item.types.map(typeInfo => typeInfo.type.name).join(', ')}
+            </Text>
+            <Text>
+              Attacks:{' '}
+              {item.moves
+                .slice(0, 4)
+                .map(moveInfo => moveInfo.move.name)
+                .join(', ')}
+            </Text>
+          </View>
+        )}
+      />
+    </View>
   );
 };
 
