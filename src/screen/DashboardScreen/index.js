@@ -1,90 +1,57 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, Image, StyleSheet, Button} from 'react-native';
-import ApiHelper from '../../helpers/ApiHelper';
+// Dashboard.js
+import React, {useEffect, useState} from 'react';
+import {FlatList, Image, Text, View} from 'react-native';
+import axios from 'axios';
 
-const DashboardScreen = ({navigation}) => {
-  const [pokemons, setPokemons] = useState([]);
+const Dashboard = () => {
+  const [pokemonData, setPokemonData] = useState([]);
 
   useEffect(() => {
-    fetchPokemons();
-  }, []);
-
-  const fetchPokemons = async () => {
-    try {
-      const response = await ApiHelper.get(
+    const fetchPokemonData = async () => {
+      const response = await axios.get(
         'https://pokeapi.co/api/v2/pokemon?limit=151',
       );
-      setPokemons(response.data.results);
-    } catch (error) {
-      console.error('Error fetching Pokémon data:', error);
-    }
-  };
+      const promises = response.data.results.map(async pokemon => {
+        const pokemonInfo = await axios.get(pokemon.url);
+        return pokemonInfo.data;
+      });
+      const pokemonDetails = await Promise.all(promises);
+      setPokemonData(pokemonDetails);
+    };
 
-  const renderPokemon = ({item}) => {
-    const idPokemon = item.url
-      .split('https://pokeapi.co/api/v2/pokemon/')[1]
-      .split('/')[0];
-    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${idPokemon}.png`;
-
-    return (
-      <View style={styles.pokemonContainer}>
-        <Image source={{uri: imageUrl}} style={styles.image} />
-        <Text style={styles.text}>{item.name}</Text>
-      </View>
-    );
-  };
+    fetchPokemonData();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Welcome to the Dashboard!</Text>
-      {pokemons && pokemons.length > 0 ? (
-        <FlatList
-          data={pokemons}
-          renderItem={renderPokemon}
-          keyExtractor={item => item.name}
-        />
-      ) : (
-        <Text>Loading Pokémon...</Text>
+    <FlatList
+      data={pokemonData}
+      keyExtractor={item => item.name}
+      renderItem={({item}) => (
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: 'grey',
+            padding: 10,
+          }}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
+          <Image
+            source={{uri: item.sprites.front_default}}
+            style={{width: 100, height: 100}}
+          />
+          <Text>
+            Type: {item.types.map(typeInfo => typeInfo.type.name).join(', ')}
+          </Text>
+          <Text>
+            Attacks:{' '}
+            {item.moves
+              .slice(0, 4)
+              .map(moveInfo => moveInfo.move.name)
+              .join(', ')}
+          </Text>
+        </View>
       )}
-      <Button
-        title="Logout"
-        onPress={() => {
-          // Implement logout logic here
-          // For example, remove the login state from AsyncStorage and navigate to the LoginScreen
-          // You can use AsyncStorage or any other state management solution you prefer
-          navigation.navigate('Login');
-        }}
-      />
-      <Button
-        title="Home"
-        onPress={() => {
-          // Navigate to the HomeScreen when the "Home" button is pressed
-          navigation.navigate('Home');
-        }}
-      />
-    </View>
+    />
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  pokemonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  },
-  text: {
-    fontSize: 16,
-  },
-});
-
-export default DashboardScreen;
+export default Dashboard;
