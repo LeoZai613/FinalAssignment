@@ -1,66 +1,66 @@
-import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
+// TestLayout.js
 import React from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 import ThemedButton from './ThemedButton';
 import ItemCell from './ItemCell';
 
-const myButtons = ['Home', 'About', 'Blogs', 'Careers', 'Contact Us'];
-const dataList = [
-  {
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwcAR_PUrrsp3GYmPyMD4DuqabPiyjT1UhL74cTHVL_dPRINVVEsIiYGJKRSJwpQ_O0J0&usqp=CAU',
-    textDescription:
-      "Pokémon was one of the first games I ever played as a child, and it instilled in me a deep passion for gaming that would eventually become a profound love for programming. Due to that, I decided I'd dedicate this first assignment to an app that would let me document them ^__^",
-    // buttonText: 'Go Somewhere',
-  },
-  {
-    image:
-      'https://www.airandspaceforces.com/app/uploads/2022/06/f-22-900x563.jpeg',
-    textDescription:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
-    buttonText: 'Click Me',
-  },
-  {
-    image:
-      'https://media.defense.gov/2021/Aug/13/2002830972/2000/2000/0/210809-D-IJ948-9001.JPG',
-    textDescription:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,',
-    buttonText: 'Do Something',
-  },
-];
+const myButtons = ['Home'];
+// Removed the textDescription from dataList
+const dataList = [];
 
 const TestLayout = () => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'blue'}}>
-      <View
-        style={{
-          height: 70,
-          backgroundColor: 'purple',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text>My Favorite Pokemon</Text>
-      </View>
-      <View
-        style={{
-          height: 50,
-          backgroundColor: 'lightgrey',
-          flexDirection: 'row',
-        }}>
-        {myButtons.map(thisEl => {
-          return <ThemedButton title={thisEl} />;
-        })}
-      </View>
-      <View style={{flex: 1, backgroundColor: 'grey'}}>
-        <ScrollView style={{flex: 1}}>
-          {dataList.map(thisEl => {
-            return <ItemCell {...thisEl} />;
+    <ImageBackground
+      source={{
+        uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwcAR_PUrrsp3GYmPyMD4DuqabPiyjT1UhL74cTHVL_dPRINVVEsIiYGJKRSJwpQ_O0J0&usqp=CAU',
+      }}
+      style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
+        <View
+          style={{
+            height: 70,
+            backgroundColor: 'rgba(128, 0, 128, 0.8)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {/* Apply the custom font inline */}
+          <Text
+            style={{
+              fontFamily: 'Pokemon Classic',
+              color: 'white',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}>
+            Pokedex and Pokemon Tracker
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 50,
+            backgroundColor: 'rgba(211, 211, 211, 0.5)',
+            flexDirection: 'row',
+          }}>
+          {myButtons.map(thisEl => {
+            return <ThemedButton title={thisEl} key={thisEl} />;
           })}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'transparent', padding: 16}}>
+          {/* Removed the image and related text */}
+          <ScrollView style={{flex: 1}}>
+            {dataList.map(thisEl => {
+              return <ItemCell {...thisEl} key={thisEl.textDescription} />;
+            })}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 export default TestLayout;
-
-const styles = StyleSheet.create({});

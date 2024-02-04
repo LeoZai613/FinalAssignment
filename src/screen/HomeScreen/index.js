@@ -16,7 +16,7 @@ const HomePageScreen = props => {
   return (
     <View style={styles.container}>
       <TestLayout />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           navigation.navigate('Details', {
             sessionName: 'React Native',
@@ -25,23 +25,23 @@ const HomePageScreen = props => {
         }}
         style={styles.button1}>
         <Text>Navigate Details Screen</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           navigation.push('Details');
         }}
         style={styles.button1}>
         <Text>Push Details Screen</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           navigation.navigate('LifecyclePrac');
         }}
         style={styles.button1}>
         <Text>LifecyclePrac</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Added button to navigate to Signup screen */}
       <TouchableOpacity
@@ -49,7 +49,7 @@ const HomePageScreen = props => {
           navigation.navigate('Signup');
         }}
         style={styles.button1}>
-        <Text>Go to Signup Screen</Text>
+        <Text>Sign Up</Text>
       </TouchableOpacity>
 
       {/* Added button to navigate to Login screen */}
