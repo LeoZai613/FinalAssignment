@@ -1,3 +1,4 @@
+// LoginScreen.js
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -8,26 +9,15 @@ import {
   Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppContext} from '../../contexts/AppContext'; // Update the path
 
 const LoginScreen = ({navigation}) => {
+  const {login} = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const authenticateUser = async () => {
-    // Implement your authentication logic here, for simplicity, always return true
-    return true;
-  };
-
-  const storeData = async value => {
-    try {
-      await AsyncStorage.setItem('@login_state', value);
-    } catch (e) {
-      // Handle saving error
-    }
-  };
-
   const loginUser = async () => {
-    const isAuthenticated = await authenticateUser(email, password);
+    const isAuthenticated = await login(email);
 
     if (isAuthenticated) {
       await storeData('userToken');
@@ -35,6 +25,14 @@ const LoginScreen = ({navigation}) => {
     } else {
       // Handle login failure
       alert('Invalid credentials. Please try again.');
+    }
+  };
+
+  const storeData = async value => {
+    try {
+      await AsyncStorage.setItem('@login_state', value);
+    } catch (e) {
+      // Handle saving error
     }
   };
 
