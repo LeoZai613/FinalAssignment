@@ -9,6 +9,7 @@ const api = create({
   baseURL: kApiUrl,
   headers: {'Content-Type': 'application/json', Accept: 'application/json'},
 });
+
 class ApiHelper {
   myobject = undefined;
 
@@ -20,7 +21,8 @@ class ApiHelper {
         this.handlePromise(resolve, reject, response);
       });
     } catch (ex) {
-      console.log(ex);
+      console.error(ex); // Log the error for debugging purposes
+      throw ex; // Re-throw the error to propagate it up the call stack
     }
   };
 
@@ -31,7 +33,7 @@ class ApiHelper {
       } else if (response.error.code === 'NETWORK_ERROR') {
         reject(ERROR_NETWORK_NOT_AVAILABLE);
       } else {
-        reject();
+        reject(response.problem); // Include the specific problem in the rejection
       }
     } else {
       resolve(response);
