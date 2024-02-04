@@ -7,23 +7,42 @@ import {
   TouchableOpacity,
   Button,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // For simplicity, let's assume any non-empty email and password is valid
-    if (email && password) {
-      // Navigate to the DashboardScreen on successful login
-      navigation.navigate('DashboardScreen', {
-        email: email,
-        // Other user-related data can be passed here
-      });
+  const authenticateUser = async () => {
+    // Implement your authentication logic here, for simplicity, always return true
+    return true;
+  };
+
+  const storeData = async value => {
+    try {
+      await AsyncStorage.setItem('@login_state', value);
+    } catch (e) {
+      // Handle saving error
+    }
+  };
+
+  const loginUser = async () => {
+    const isAuthenticated = await authenticateUser(email, password);
+
+    if (isAuthenticated) {
+      await storeData('userToken');
+      navigateToDashboard();
     } else {
       // Handle login failure
       alert('Invalid credentials. Please try again.');
     }
+  };
+
+  const navigateToDashboard = () => {
+    navigation.navigate('DashboardScreen', {
+      email: email,
+      // Other user-related data can be passed here
+    });
   };
 
   return (
@@ -43,7 +62,7 @@ const LoginScreen = ({navigation}) => {
       />
 
       {/* TouchableOpacity for login button */}
-      <TouchableOpacity onPress={handleLogin}>
+      <TouchableOpacity onPress={loginUser}>
         <Text>Login</Text>
       </TouchableOpacity>
 

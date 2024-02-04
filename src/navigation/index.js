@@ -9,6 +9,7 @@ import {
   SignupScreen,
   UserProfileScreen,
   LifecyclePracScreen,
+  DashboardScreen,
 } from '../screen';
 
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const Navigation = () => {
             BatchNumber: 0,
           }}
         />
+        <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Group>
