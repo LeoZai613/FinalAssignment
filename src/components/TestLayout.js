@@ -32,7 +32,7 @@ const TestLayout = () => {
           {/* Apply the custom font inline */}
           <Text
             style={{
-              fontFamily: 'Pokemon Classic',
+              fontFamily: 'Pokemon-Classic',
               color: 'white',
               fontSize: 20,
               fontWeight: 'bold',

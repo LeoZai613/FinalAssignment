@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,15 +18,52 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginUser = async () => {
-    const isAuthenticated = await login(email, password);
+  useEffect(() => {
+    // Load saved email and password on component mount
+    loadUserData();
+  }, []);
 
-    if (isAuthenticated) {
-      await storeData('userToken');
-      navigateToDashboard();
-    } else {
-      // Handle login failure
-      alert('Invalid credentials. Please try again.');
+  const loadUserData = async () => {
+    try {
+      // Retrieve user email and password from AsyncStorage
+      const savedEmail = await AsyncStorage.getItem('@user_email');
+      const savedPassword = await AsyncStorage.getItem('@user_password');
+
+      if (savedEmail && savedPassword) {
+        setEmail(savedEmail);
+        setPassword(savedPassword);
+      }
+    } catch (e) {
+      // Handle loading error
+      console.error('Error loading user data:', e);
+    }
+  };
+
+  const loginUser = async () => {
+    try {
+      // Retrieve saved email and password from AsyncStorage
+      const savedEmail = await AsyncStorage.getItem('@user_email');
+      const savedPassword = await AsyncStorage.getItem('@user_password');
+
+      // Check if the entered credentials match the saved ones
+      if (email === savedEmail && password === savedPassword) {
+        // Perform login logic here
+        const isAuthenticated = await login(email, password);
+
+        if (isAuthenticated) {
+          await storeData('userToken');
+          navigateToDashboard();
+        } else {
+          // Handle login failure
+          alert('Invalid credentials. Please try again.');
+        }
+      } else {
+        // Credentials do not match
+        alert('Invalid credentials. Please try again.');
+      }
+    } catch (e) {
+      // Handle error
+      console.error('Error retrieving user data:', e);
     }
   };
 
@@ -43,6 +80,19 @@ const LoginScreen = ({navigation}) => {
       email: email,
       // Other user-related data can be passed here
     });
+  };
+
+  const logSavedData = async () => {
+    try {
+      // Log saved data to the console
+      const savedEmail = await AsyncStorage.getItem('@user_email');
+      const savedPassword = await AsyncStorage.getItem('@user_password');
+      console.log('Saved Email:', savedEmail);
+      console.log('Saved Password:', savedPassword);
+    } catch (e) {
+      // Handle error
+      console.error('Error logging saved data:', e);
+    }
   };
 
   return (
@@ -71,14 +121,10 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        {/* Button to navigate to Signup */}
-        {/* <TouchableOpacity
-          style={styles.signupButton}
-          onPress={() => {
-            navigation.navigate('Signup');
-          }}>
-          <Text style={styles.buttonText}>Sign up</Text>
-        </TouchableOpacity> */}
+        {/* Button to log saved data */}
+        <TouchableOpacity style={styles.logButton} onPress={logSavedData}>
+          <Text style={styles.buttonText}>Log Saved Data</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -110,7 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 20,
   },
-  signupButton: {
+  logButton: {
     backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,

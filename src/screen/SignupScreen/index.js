@@ -6,20 +6,34 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     // Perform Signup logic here
     console.log('Signup pressed');
     console.log('Email:', email);
     console.log('Password:', password);
 
-    // You may want to navigate to another screen upon successful Signup
-    // For example, navigating to the login screen
+    // Store user data in AsyncStorage
+    await storeUserData(email, password);
+
+    // Navigate to the login screen
     navigation.navigate('Login');
+  };
+
+  const storeUserData = async (email, password) => {
+    try {
+      // Store user email and password in AsyncStorage
+      await AsyncStorage.setItem('@user_email', email);
+      await AsyncStorage.setItem('@user_password', password);
+    } catch (e) {
+      // Handle saving error
+      console.error('Error storing user data:', e);
+    }
   };
 
   return (

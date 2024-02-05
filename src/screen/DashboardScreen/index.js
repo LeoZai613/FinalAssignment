@@ -51,7 +51,6 @@ const Dashboard = ({navigation}) => {
                 borderBottomColor: 'grey',
                 padding: 20,
                 marginBottom: 10,
-                // backgroundColor: 'rgba(255, 255, 255, 0.5)', // Adjust alpha value for transparency
                 borderRadius: 10,
               }}>
               <Text
@@ -59,25 +58,41 @@ const Dashboard = ({navigation}) => {
                   fontSize: 24,
                   fontWeight: 'bold',
                   color: 'white',
+                  fontFamily: 'Pokemon-Classic',
                   marginBottom: 5,
                 }}>
-                {item.name}
+                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
               </Text>
               <Image
                 source={{uri: item.sprites.front_default}}
                 style={{width: 120, height: 120, marginBottom: 10}}
               />
-              <Text style={{color: 'white', fontSize: 16}}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontFamily: 'Pokemon-Classic',
+                }}>
                 Type:{' '}
                 {item.types.map(typeInfo => typeInfo.type.name).join(', ')}
               </Text>
-              <Text style={{color: 'white', fontSize: 16}}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontFamily: 'Pokemon-Classic',
+                }}>
                 Abilities:{' '}
                 {item.abilities
                   .map(abilityInfo => abilityInfo.ability.name)
                   .join(', ')}
               </Text>
-              <Text style={{color: 'white', fontSize: 16}}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontFamily: 'Pokemon-Classic',
+                }}>
                 Moves:{' '}
                 {item.moves
                   .slice(0, 4)
