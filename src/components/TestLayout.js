@@ -37,7 +37,7 @@ const TestLayout = () => {
               fontSize: 20,
               fontWeight: 'bold',
             }}>
-            Pokedex and Pokemon Tracker
+            Pokedex
           </Text>
         </View>
         <View

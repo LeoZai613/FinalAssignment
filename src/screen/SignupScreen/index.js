@@ -5,8 +5,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const backgroundImage =
+  'https://wallpapers.com/images/hd/illuminated-poke-ball-pokemon-iphone-aidw21v1d13ujypw.jpg';
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -37,30 +41,66 @@ const SignupScreen = ({navigation}) => {
   };
 
   return (
-    <View>
-      {/* TextInput for email */}
-      <TextInput
-        value={email}
-        onChangeText={text => setEmail(text)}
-        placeholder="Enter Email"
-      />
+    <ImageBackground
+      source={{uri: backgroundImage}}
+      style={styles.backgroundImage}>
+      <View style={styles.container}>
+        {/* TextInput for email */}
+        <TextInput
+          value={email}
+          onChangeText={text => setEmail(text)}
+          placeholder="Enter Email"
+          style={styles.input}
+        />
 
-      {/* TextInput for password */}
-      <TextInput
-        value={password}
-        onChangeText={text => setPassword(text)}
-        placeholder="Enter Password"
-        secureTextEntry
-      />
+        {/* TextInput for password */}
+        <TextInput
+          value={password}
+          onChangeText={text => setPassword(text)}
+          placeholder="Enter Password"
+          secureTextEntry
+          style={styles.input}
+        />
 
-      {/* TouchableOpacity for Signup button */}
-      <TouchableOpacity onPress={handleSignup}>
-        <Text>Signup</Text>
-      </TouchableOpacity>
-    </View>
+        {/* TouchableOpacity for Signup button */}
+        <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Signup</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
-export default SignupScreen;
+const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    margin: 12,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    color: 'white', // text color
+  },
+  signupButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+});
 
-const styles = StyleSheet.create({});
+export default SignupScreen;

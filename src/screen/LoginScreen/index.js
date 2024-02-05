@@ -82,19 +82,6 @@ const LoginScreen = ({navigation}) => {
     });
   };
 
-  const logSavedData = async () => {
-    try {
-      // Log saved data to the console
-      const savedEmail = await AsyncStorage.getItem('@user_email');
-      const savedPassword = await AsyncStorage.getItem('@user_password');
-      console.log('Saved Email:', savedEmail);
-      console.log('Saved Password:', savedPassword);
-    } catch (e) {
-      // Handle error
-      console.error('Error logging saved data:', e);
-    }
-  };
-
   return (
     <ImageBackground
       source={{uri: backgroundImage}}
@@ -119,11 +106,6 @@ const LoginScreen = ({navigation}) => {
         {/* TouchableOpacity for login button */}
         <TouchableOpacity style={styles.loginButton} onPress={loginUser}>
           <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-        {/* Button to log saved data */}
-        <TouchableOpacity style={styles.logButton} onPress={logSavedData}>
-          <Text style={styles.buttonText}>Log Saved Data</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -155,12 +137,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
-  },
-  logButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
   },
   buttonText: {
     color: 'white',
