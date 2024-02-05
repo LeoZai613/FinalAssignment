@@ -10,7 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const backgroundImage =
-  'https://wallpapers.com/images/hd/illuminated-poke-ball-pokemon-iphone-aidw21v1d13ujypw.jpg';
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq_XrngoUoBOuc1Sq9H1ptaq0t_VsYsbKunQ&usqp=CAU';
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
