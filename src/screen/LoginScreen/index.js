@@ -76,7 +76,7 @@ const LoginScreen = ({navigation}) => {
   };
 
   const navigateToDashboard = () => {
-    navigation.navigate('DashboardScreen', {
+    navigation.navigate('UserProfile', {
       email: email,
       // Other user-related data can be passed here
     });
