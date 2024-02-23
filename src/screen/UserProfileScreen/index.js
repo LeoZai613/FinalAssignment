@@ -11,6 +11,7 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Picker} from '@react-native-picker/picker';
+import {useNavigation} from '@react-navigation/native'; // Import useNavigation hook
 
 // Get the screen's height to calculate the percentage-based spacing
 const {height: screenHeight} = Dimensions.get('window');
@@ -21,6 +22,7 @@ const UserProfileScreen = () => {
   const [birthday, setBirthday] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const navigation = useNavigation(); // Initialize navigation object
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -58,6 +60,10 @@ const UserProfileScreen = () => {
 
   const confirmGenderSelection = () => {
     setConfirmedGender(gender);
+  };
+
+  const navigateToDashboard = () => {
+    navigation.navigate('DashboardScreen');
   };
 
   return (
@@ -98,8 +104,12 @@ const UserProfileScreen = () => {
         <Image source={{uri: profileImage}} style={styles.profileImage} />
       )}
 
-      {/* Other Info */}
-      {/* Add other fields as needed */}
+      {/* Button to navigate to DashboardScreen */}
+      <TouchableOpacity
+        onPress={navigateToDashboard}
+        style={styles.dashboardButton}>
+        <Text style={styles.buttonText}>Go to Dashboard</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -127,6 +137,16 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginVertical: 20,
+  },
+  dashboardButton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
   },
 });
 
