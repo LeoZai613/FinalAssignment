@@ -8,78 +8,29 @@ import {
   ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useAppContext} from '../../contexts/AppContext'; // Updated the path
+import auth from '@react-native-firebase/auth'; // Import Firebase Auth
 
 const backgroundImage =
   'https://wallpapers.com/images/hd/illuminated-poke-ball-pokemon-iphone-aidw21v1d13ujypw.jpg';
 
 const LoginScreen = ({navigation}) => {
-  const {login} = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    // Load saved email and password on component mount
-    loadUserData();
+    // Clear any existing authentication state
+    auth().signOut();
   }, []);
-
-  const loadUserData = async () => {
-    try {
-      // Retrieve user email and password from AsyncStorage
-      const savedEmail = await AsyncStorage.getItem('@user_email');
-      const savedPassword = await AsyncStorage.getItem('@user_password');
-
-      if (savedEmail && savedPassword) {
-        setEmail(savedEmail);
-        setPassword(savedPassword);
-      }
-    } catch (e) {
-      // Handle loading error
-      console.error('Error loading user data:', e);
-    }
-  };
 
   const loginUser = async () => {
     try {
-      // Retrieve saved email and password from AsyncStorage
-      const savedEmail = await AsyncStorage.getItem('@user_email');
-      const savedPassword = await AsyncStorage.getItem('@user_password');
-
-      // Check if the entered credentials match the saved ones
-      if (email === savedEmail && password === savedPassword) {
-        // Perform login logic here
-        const isAuthenticated = await login(email, password);
-
-        if (isAuthenticated) {
-          await storeData('userToken');
-          navigateToDashboard();
-        } else {
-          // Handle login failure
-          alert('Invalid credentials. Please try again.');
-        }
-      } else {
-        // Credentials do not match
-        alert('Invalid credentials. Please try again.');
-      }
-    } catch (e) {
-      // Handle error
-      console.error('Error retrieving user data:', e);
+      await auth().signInWithEmailAndPassword(email, password);
+      // Navigate to the dashboard or profile screen after successful login
+      navigation.navigate('UserProfile');
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      alert('Invalid email or password. Please try again.');
     }
-  };
-
-  const storeData = async value => {
-    try {
-      await AsyncStorage.setItem('@login_state', value);
-    } catch (e) {
-      // Handle saving error
-    }
-  };
-
-  const navigateToDashboard = () => {
-    navigation.navigate('UserProfile', {
-      email: email,
-      // Other user-related data can be passed here
-    });
   };
 
   return (
@@ -87,14 +38,12 @@ const LoginScreen = ({navigation}) => {
       source={{uri: backgroundImage}}
       style={styles.backgroundImage}>
       <View style={styles.container}>
-        {/* TextInput for email */}
         <TextInput
           value={email}
           onChangeText={text => setEmail(text)}
           placeholder="Enter Email"
           style={styles.input}
         />
-        {/* TextInput for password */}
         <TextInput
           value={password}
           onChangeText={text => setPassword(text)}
@@ -102,8 +51,6 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry
           style={styles.input}
         />
-
-        {/* TouchableOpacity for login button */}
         <TouchableOpacity style={styles.loginButton} onPress={loginUser}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
