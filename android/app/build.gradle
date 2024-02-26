@@ -76,7 +76,7 @@ android {
 
     namespace "com.batch5"
     defaultConfig {
-        applicationId "com.batch5"
+        applicationId "org.reactjs.native.example.Batch5"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
