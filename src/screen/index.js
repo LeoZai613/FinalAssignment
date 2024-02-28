@@ -8,7 +8,7 @@ import PropDrillingScreen from './PropDrillingScreen';
 import UseRefTestScreen from './UseRefTestScreen';
 import FetchScreen from './FetchScreen';
 import DashboardScreen from './DashboardScreen'; // Added DashboardScreen
-
+import ChatScreen from './ChatScreen';
 export {
   HomeScreen,
   DetailsScreen,
@@ -20,4 +20,5 @@ export {
   UseRefTestScreen,
   FetchScreen,
   DashboardScreen, // Included DashboardScreen in the export
+  ChatScreen,
 };

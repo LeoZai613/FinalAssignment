@@ -66,6 +66,10 @@ const UserProfileScreen = () => {
     navigation.navigate('DashboardScreen');
   };
 
+  const navigateToChat = () => {
+    navigation.navigate('ChatScreen');
+  };
+
   return (
     <View style={styles.container}>
       <Text>User Profile</Text>
@@ -110,6 +114,11 @@ const UserProfileScreen = () => {
         style={styles.dashboardButton}>
         <Text style={styles.buttonText}>Go to Dashboard</Text>
       </TouchableOpacity>
+
+      {/* Button to navigate to ChatScreen */}
+      <TouchableOpacity onPress={navigateToChat} style={styles.chatButton}>
+        <Text style={styles.buttonText}>Go to Chat</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -143,6 +152,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
+  },
+  chatButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
