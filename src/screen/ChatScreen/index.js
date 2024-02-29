@@ -8,6 +8,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import {initializeApp, getApps} from 'firebase/app';
 import {
   getFirestore,
@@ -32,48 +33,48 @@ const firebaseConfig = {
 
 // Initialize Firebase only if there isn't an instance already
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [groups, setGroups] = useState([
+    {id: 'Group1', name: 'Group 1'},
+    {id: 'Group2', name: 'Group 2'},
+  ]); // Example groups
 
-  // Function to fetch messages from Firestore
   useEffect(() => {
-    // Define the query for messages, ordered by timestamp
-    const messagesQuery = query(
-      collection(db, 'messages'),
-      orderBy('timestamp', 'desc'),
-    );
-    // Listen for real-time updates with onSnapshot
-    const unsubscribe = onSnapshot(messagesQuery, querySnapshot => {
-      const fetchedMessages = querySnapshot.docs.map(doc => {
-        const data = doc.data();
-        // Convert timestamp to JavaScript Date object
-        const timestamp = data.timestamp
-          ? new Date(data.timestamp.seconds * 1000)
-          : new Date();
-        return {
-          id: doc.id,
-          text: data.text,
-          timestamp,
-        };
+    if (selectedGroupId) {
+      const messagesQuery = query(
+        collection(db, `groups/${selectedGroupId}/messages`),
+        orderBy('timestamp', 'desc'),
+      );
+      const unsubscribe = onSnapshot(messagesQuery, querySnapshot => {
+        const fetchedMessages = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          const timestamp = data.timestamp
+            ? new Date(data.timestamp.seconds * 1000)
+            : new Date();
+          return {
+            id: doc.id,
+            text: data.text,
+            timestamp,
+          };
+        });
+        setMessages(fetchedMessages);
+        setLoading(false);
       });
-      setMessages(fetchedMessages);
-      setLoading(false);
-    });
 
-    // Detach listener when the component unmounts
-    return () => unsubscribe();
-  }, []);
+      return () => unsubscribe();
+    }
+  }, [selectedGroupId]);
 
-  // Function to send a new message to Firestore
   const sendMessage = async () => {
-    if (newMessage.trim() !== '') {
+    if (newMessage.trim() !== '' && selectedGroupId) {
       try {
-        await addDoc(collection(db, 'messages'), {
+        await addDoc(collection(db, `groups/${selectedGroupId}/messages`), {
           text: newMessage.trim(),
           timestamp: serverTimestamp(),
         });
@@ -86,6 +87,14 @@ const ChatScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Picker
+        selectedValue={selectedGroupId}
+        onValueChange={(itemValue, itemIndex) => setSelectedGroupId(itemValue)}
+        style={styles.picker}>
+        {groups.map(group => (
+          <Picker.Item key={group.id} label={group.name} value={group.id} />
+        ))}
+      </Picker>
       {loading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (
@@ -99,8 +108,8 @@ const ChatScreen = () => {
               </Text>
             </View>
           )}
-          keyExtractor={item => item.id}
-          inverted // Show latest messages at the bottom
+          keyExtractor={item => item.id.toString()}
+          inverted
         />
       )}
       <View style={styles.inputContainer}>
@@ -109,9 +118,11 @@ const ChatScreen = () => {
           value={newMessage}
           onChangeText={text => setNewMessage(text)}
           placeholder="Type your message here..."
-          onSubmitEditing={sendMessage}
+          onSubmitEditing={() => sendMessage()}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={() => sendMessage()}>
           <Text style={styles.sendButtonText}>Send</Text>
         </TouchableOpacity>
       </View>
@@ -161,6 +172,10 @@ const styles = StyleSheet.create({
   sendButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  picker: {
+    height: 50,
+    width: '100%',
   },
 });
 
