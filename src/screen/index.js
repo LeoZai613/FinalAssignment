@@ -10,6 +10,9 @@ import FetchScreen from './FetchScreen';
 import DashboardScreen from './DashboardScreen'; // Added DashboardScreen
 import ChatScreen from './ChatScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
+import CustomerScreen from './CustomerScreen';
+import EmployeeScreen from './EmployeeScreen';
+
 export {
   HomeScreen,
   DetailsScreen,
@@ -23,4 +26,6 @@ export {
   DashboardScreen, // Included DashboardScreen in the export
   ChatScreen,
   ForgotPasswordScreen,
+  CustomerScreen,
+  EmployeeScreen,
 };
