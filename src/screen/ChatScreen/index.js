@@ -60,6 +60,7 @@ const ChatScreen = () => {
           return {
             id: doc.id,
             text: data.text,
+            email: data.email, // Add email to the message object
             timestamp,
           };
         });
@@ -76,6 +77,7 @@ const ChatScreen = () => {
       try {
         await addDoc(collection(db, `groups/${selectedGroupId}/messages`), {
           text: newMessage.trim(),
+          email: 'user@example.com', // Placeholder for the user's email
           timestamp: serverTimestamp(),
         });
         setNewMessage('');
@@ -103,6 +105,8 @@ const ChatScreen = () => {
           renderItem={({item}) => (
             <View style={styles.messageContainer}>
               <Text style={styles.message}>{item.text}</Text>
+              <Text style={styles.email}>{item.email}</Text>{' '}
+              {/* Display the email */}
               <Text style={styles.timestamp}>
                 {item.timestamp.toLocaleString()}
               </Text>
@@ -144,6 +148,10 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 16,
+  },
+  email: {
+    fontSize: 14,
+    color: 'green',
   },
   timestamp: {
     fontSize: 12,

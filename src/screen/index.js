@@ -9,6 +9,7 @@ import UseRefTestScreen from './UseRefTestScreen';
 import FetchScreen from './FetchScreen';
 import DashboardScreen from './DashboardScreen'; // Added DashboardScreen
 import ChatScreen from './ChatScreen';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 export {
   HomeScreen,
   DetailsScreen,
@@ -21,4 +22,5 @@ export {
   FetchScreen,
   DashboardScreen, // Included DashboardScreen in the export
   ChatScreen,
+  ForgotPasswordScreen,
 };

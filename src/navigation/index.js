@@ -11,6 +11,7 @@ import {
   LifecyclePracScreen,
   DashboardScreen,
   ChatScreen,
+  ForgotPasswordScreen,
 } from '../screen';
 
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,10 @@ const Navigation = () => {
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+        />
       </Stack.Group>
     );
   };

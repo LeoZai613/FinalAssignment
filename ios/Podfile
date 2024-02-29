@@ -46,6 +46,9 @@ target 'Batch5' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Add FBSDKCoreKit
+  pod 'FBSDKCoreKit'
+
   target 'Batch5Tests' do
     inherit! :complete
     # Pods for testing
