@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,15 +8,16 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import {initializeApp} from 'firebase/app';
-import {getAnalytics} from 'firebase/analytics';
+import {initializeApp, getApps} from 'firebase/app';
 import {
-  getDatabase,
-  ref,
-  onValue,
-  push,
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
   serverTimestamp,
-} from 'firebase/database';
+} from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,51 +30,57 @@ const firebaseConfig = {
   measurementId: 'G-YR51QZ3QHL',
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = getDatabase(app);
+// Initialize Firebase only if there isn't an instance already
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Function to fetch messages from Firebase
-  const fetchMessages = () => {
-    const messagesRef = ref(database, 'messages');
-    onValue(
-      messagesRef,
-      snapshot => {
-        const data = snapshot.val();
-        if (data) {
-          const messageList = Object.values(data);
-          setMessages(messageList.reverse()); // Reverse to show the latest message first
-          setLoading(false);
-        }
-      },
-      error => {
-        console.error('Error fetching messages:', error);
-        setLoading(false);
-      },
-    );
-  };
-
-  // useEffect hook to fetch messages when component mounts
+  // Function to fetch messages from Firestore
   useEffect(() => {
-    fetchMessages();
+    // Define the query for messages, ordered by timestamp
+    const messagesQuery = query(
+      collection(db, 'messages'),
+      orderBy('timestamp', 'desc'),
+    );
+    // Listen for real-time updates with onSnapshot
+    const unsubscribe = onSnapshot(messagesQuery, querySnapshot => {
+      const fetchedMessages = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        // Convert timestamp to JavaScript Date object
+        const timestamp = data.timestamp
+          ? new Date(data.timestamp.seconds * 1000)
+          : new Date();
+        return {
+          id: doc.id,
+          text: data.text,
+          timestamp,
+        };
+      });
+      setMessages(fetchedMessages);
+      setLoading(false);
+    });
+
+    // Detach listener when the component unmounts
+    return () => unsubscribe();
   }, []);
 
-  // Function to send a new message
-  const sendMessage = () => {
+  // Function to send a new message to Firestore
+  const sendMessage = async () => {
     if (newMessage.trim() !== '') {
-      const messageRef = ref(database, 'messages');
-      push(messageRef, {
-        text: newMessage.trim(),
-        timestamp: serverTimestamp(),
-      })
-        .then(() => setNewMessage(''))
-        .catch(error => console.error('Error sending message:', error));
+      try {
+        await addDoc(collection(db, 'messages'), {
+          text: newMessage.trim(),
+          timestamp: serverTimestamp(),
+        });
+        setNewMessage('');
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
   };
 
@@ -88,11 +95,11 @@ const ChatScreen = () => {
             <View style={styles.messageContainer}>
               <Text style={styles.message}>{item.text}</Text>
               <Text style={styles.timestamp}>
-                {new Date(item.timestamp).toLocaleString()}
+                {item.timestamp.toLocaleString()}
               </Text>
             </View>
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id}
           inverted // Show latest messages at the bottom
         />
       )}
